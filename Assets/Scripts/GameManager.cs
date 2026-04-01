@@ -6,18 +6,38 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public bool gameActive = false; 
     public DragZone[] zones; 
+    public GameObject[] clothing;
+    public float spawnXMin = -10f; 
+    public float spawnXMax = 10f;
+    public float spawnYMin = -7f;
+    public float spawnYMax = -3f;
     
     void Awake()
     {
         Instance = this;
     }
 
+    void Start()
+    {
+        StartGame();
+    }
+
     public void StartGame()
     {
         gameActive = true; 
         AssignRandomTargets();
+        SpawnItems();
        // UIManager.Instance.DisplayTargetFromZones();
 
+    }
+
+    void SpawnItems()
+    {
+        foreach (GameObject clothes in clothing)
+        {
+            Vector2 pos = new Vector2(Random.Range(spawnXMin, spawnXMax), Random.Range(spawnYMin, spawnYMax));
+            Instantiate(clothes, pos, Quaternion.identity);
+        }
     }
 
     void AssignRandomTargets()
